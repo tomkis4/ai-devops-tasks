@@ -1,0 +1,75 @@
+jenkins:
+  # Podstawowe ustawienia Jenkinsa
+  numExecutors: 2
+  quietPeriod: 5
+  scmCheckoutRetryCount: 3
+  mode: NORMAL
+  
+  # Globalne ustawienia narzędzi (Tool Installations)
+  globalLibraries:
+    libraries:
+      - name: "shared-library"
+        defaultVersion: "main"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/twoja-organizacja/jenkins-shared-library.git"
+
+  # Przykładowe zadanie typu Pipeline (Seed Job lub zdefiniowane jako JCasC)
+  jobs:
+    - script: >
+        pipelineJob('przykladowy-pipeline') {
+            definition {
+                cps {
+                    script('''
+                        pipeline {
+                            agent any
+                            stages {
+                                stage('Checkout') {
+                                    steps {
+                                        echo 'Pobieranie kodu...'
+                                    }
+                                }
+                                stage('Budowanie i Testy') {
+                                    steps {
+                                        echo 'Budowanie aplikacji przy użyciu Mavena / Node.js...'
+                                    }
+                                }
+                            }
+                        }
+                    ''')
+                    sandbox(true)
+                }
+            }
+        }
+
+# Globalny katalog narzędzi (Maven, Node.js, Docker)
+tool:
+  maven:
+    installations:
+      - name: "Maven 3.8.8"
+        properties:
+          - installSource:
+              installers:
+                - maven:
+                    id: "3.8.8"
+  nodeJS:
+    installations:
+      - name: "Node 18"
+        properties:
+          - installSource:
+              installers:
+                - nodeJS:
+                    id: "18.16.0"
+
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+    adminAddress: "admin@example.com"
+
+# Podstawowe wtyczki mogą być instalowane przez Configuration-as-Code lub menedżer wtyczek,
+# natomiast poniżej konfigurujemy autoryzację i zabezpieczenia
+security:
+  gitHostKeyVerificationConfiguration:
+    mode: ACCEPT_FIRST_CONNECTION

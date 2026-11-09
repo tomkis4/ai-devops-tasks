@@ -1,0 +1,1 @@
+Dokumentacja jest wygenerowana dobrze.

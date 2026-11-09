@@ -1,0 +1,33 @@
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+package-lock.json
+
+# Środowisko
+.env
+.env.local
+
+# Docker
+*.log
+
+# MongoDB
+data/
+mongo-data/
+mongodb/
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build
+dist/
+build/
+
+# Testy
+coverage/
